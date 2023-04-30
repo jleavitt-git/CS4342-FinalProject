@@ -2,12 +2,11 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
-
+from sklearn.model_selection import train_test_split
 
 def main():
     data = pd.read_csv("train.csv")
-    data = data.astype({"id":"category","hasYard":"category","hasPool":"category","cityPartRange":"category","isNewBuilt":"category","hasStormProtector":"category","hasStorageRoom":"category"})
-    data = data.drop(["id", "cityCode"], axis=1)
+    data = data.drop(["id"], axis=1)
 
     # print(data.columns)
 
@@ -21,9 +20,12 @@ def main():
 
     pcaT = pca.transform(pcaData)
 
-    plt.scatter(pcaData[:, 0], pcaData[:, 1])
+    plt.scatter(pcaT[:, 0], pcaT[:, 1], c=data.booking_status, cmap='summer', alpha=0.25)
 
     plt.show()
+
+    # data.plot(kind ='box',subplots = True,sharex= False,sharey=False,figsize=(15,15))
+    # plt.show()
 
 
 if __name__ == "__main__":
