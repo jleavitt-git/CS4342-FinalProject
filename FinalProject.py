@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
 
 def main():
     data = pd.read_csv("train.csv")
@@ -20,11 +22,33 @@ def main():
 
     pcaT = pca.transform(pcaData)
 
-    plt.scatter(pcaT[:, 0], pcaT[:, 1], c=data.booking_status, cmap='coolwarm', alpha=0.5, s=4)
+    visualize(pcaT, data.booking_status)
 
-    plt.show()
+    X_train, X_test, y_train, y_test = train_test_split(pcaT, data.booking_status, test_size=0.2, shuffle=True)
+    # print(f"{X_train.shape} : {X_test.shape} : {y_train.shape} : {y_test.shape}")
+
+    shallow_model(X_train, X_test, y_train, y_test)
 
     # data.plot(kind ='box',subplots = True,sharex= False,sharey=False,figsize=(15,15))
+    # plt.show()
+
+
+def shallow_model(X_train, X_test, y_train, y_test):
+
+    clf = SVC()
+
+    clf.fit(X_train, y_train)
+
+    predictions = clf.predict(X_test)
+
+    ac = accuracy_score(y_test, predictions)
+    print(ac)
+
+
+def visualize(pcaT, data):
+
+    plt.scatter(pcaT[:, 0], pcaT[:, 1], c=data, cmap='coolwarm', alpha=0.5, s=4)
+
     # plt.show()
 
 
