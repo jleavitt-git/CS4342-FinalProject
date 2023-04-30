@@ -20,7 +20,7 @@ def main():
 
     pcaT = pca.transform(pcaData)
 
-    plt.scatter(pcaT[:, 0], pcaT[:, 1], c=data.booking_status, cmap='summer', alpha=0.25)
+    plt.scatter(pcaT[:, 0], pcaT[:, 1], c=data.booking_status, cmap='coolwarm', alpha=0.5, s=4)
 
     plt.show()
 
